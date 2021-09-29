@@ -1,12 +1,25 @@
-//input field to save to local storage when save button is clicked
 //input field stays when page is refreshed
-//current day is displayed at top
 //current hour is red
 //past hours are grey
 //future hours are green
 
 var now = moment().format('dddd MMM Do');
 $("#currentDay").text(now);
+
+var currentHour = moment().format('HH');
+console.log(currentHour);
+
+$("input").each( function(){
+    var dataHour = $(this).attr("data-hour")
+    console.log(dataHour);
+    if (dataHour > currentHour) {
+        $("input").addClass("future")
+    }
+    else if (dataHour < currentHour) {
+        $("input").addClass("past")
+    }
+    else $("input").addClass("present")
+})
 
 var saveBtn = $('.saveBtn');
 
@@ -70,12 +83,21 @@ function saveEventData(siblingInput) {
     localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
 }
 
-function renderSavedEvents(){
+function displayCalendarEvents() {
+    if (localStorage.getItem("calendarEvents") !== null) {
+            calendarEvents = JSON.parse(localStorage.getItem("calendarEvents"));
+            nineInput.val(calendarEvents.nineInput);
+            tenInput.val(calendarEvents.tenInput);
+            elevenInput.val(calendarEvents.elevenInput);
+            twelveInput.val(calendarEvents.twelveInput);
+            oneInput.val(calendarEvents.oneInput);
+            twoInput.val(calendarEvents.twoInput);
+            threeInput.val(calendarEvents.threeInput);
+            fourInput.val(calendarEvents.fourInput);
+        }
+    }
     
-}
-
-
-
+    displayCalendarEvents();
 
 
 
@@ -83,13 +105,9 @@ function renderSavedEvents(){
 
 //iterate over all the divs(rows) that have a time-block
 //first div is labeled "9AM"
-//turn time into moment object
 
 
-// var fakeTime = "09:00:00 CST";
-// var timeObj = moment(fakeTime);
 
-//compare moment object to current time
 
 
 //figure out if this row is past, present, or future
