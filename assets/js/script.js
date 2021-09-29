@@ -1,28 +1,29 @@
-//input field stays when page is refreshed
-//current hour is red
-//past hours are grey
-//future hours are green
-
+//sets date at the top of the page
 var now = moment().format('dddd MMM Do');
 $("#currentDay").text(now);
 
+//sets current hour to two-digit military time
 var currentHour = moment().format('HH');
-console.log(currentHour);
 
+//iterates over each input tag to get the hour and compare it to the current hour
 $("input").each( function(){
     var dataHour = $(this).attr("data-hour")
     console.log(dataHour);
+    //turns future hours green
     if (dataHour > currentHour) {
-        $("input").addClass("future")
+        $(this).addClass("future")
     }
+    //turns past hours gray
     else if (dataHour < currentHour) {
-        $("input").addClass("past")
+        $(this).addClass("past")
     }
-    else $("input").addClass("present")
+    //turns current hour red
+    else $(this).addClass("present")
 })
 
 var saveBtn = $('.saveBtn');
 
+//creates variables for each input field
 var nineInput = $('#input-9AM');
 var tenInput = $('#input-10AM');
 var elevenInput = $('#input-11AM');
@@ -33,6 +34,7 @@ var threeInput = $('#input-3PM');
 var fourInput = $('#input-4PM');
 var fiveInput = $('#input-5PM');
 
+//creates array for input values to be updated from local storage
 var calendarEvents = {
     nineInput: nineInput.val(),
     tenInput: tenInput.val(), 
@@ -45,13 +47,14 @@ var calendarEvents = {
     fiveInput: fiveInput.val(),
 };
 
+//save button function - saves input from specific time block
 saveBtn.on('click', function(event) {
     event.preventDefault();
     var siblingInput = ($(this).siblings("input")[0]); 
-    console.log(siblingInput.value)
     saveEventData(siblingInput);
 })
 
+//function to compare event times (come from click events) to time blocks, updates input in local storage
 function saveEventData(siblingInput) {
     var eventTime = siblingInput.id.split('-')[1];
     if (eventTime === "9AM") {
@@ -83,6 +86,7 @@ function saveEventData(siblingInput) {
     localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
 }
 
+//checks local storage and updates global variable 
 function displayCalendarEvents() {
     if (localStorage.getItem("calendarEvents") !== null) {
             calendarEvents = JSON.parse(localStorage.getItem("calendarEvents"));
@@ -96,20 +100,4 @@ function displayCalendarEvents() {
             fourInput.val(calendarEvents.fourInput);
         }
     }
-    
-    displayCalendarEvents();
-
-
-
-
-
-//iterate over all the divs(rows) that have a time-block
-//first div is labeled "9AM"
-
-
-
-
-
-//figure out if this row is past, present, or future
-//then apply correct class to row
-//moment js compare dates
+displayCalendarEvents();
