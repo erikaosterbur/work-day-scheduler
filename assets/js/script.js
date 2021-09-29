@@ -8,7 +8,6 @@ var currentHour = moment().format('HH');
 //iterates over each input tag to get the hour and compare it to the current hour
 $("input").each( function(){
     var dataHour = $(this).attr("data-hour")
-    console.log(dataHour);
     //turns future hours green
     if (dataHour > currentHour) {
         $(this).addClass("future")
@@ -54,7 +53,7 @@ saveBtn.on('click', function(event) {
     saveEventData(siblingInput);
 })
 
-//function to compare event times (come from click events) to time blocks, updates input in local storage
+//function to compare event times (come from click events) to time blocks
 function saveEventData(siblingInput) {
     var eventTime = siblingInput.id.split('-')[1];
     if (eventTime === "9AM") {
@@ -83,6 +82,7 @@ function saveEventData(siblingInput) {
     }
     else calendarEvents.fiveInput = siblingInput.value;
 
+    //updates input in local storage
     localStorage.setItem("calendarEvents", JSON.stringify(calendarEvents));
 }
 
