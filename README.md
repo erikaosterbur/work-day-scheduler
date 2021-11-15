@@ -1,4 +1,4 @@
-# Homework 5: Work Day Scheduler
+# Work Day Scheduler
 
 ## Objectives
 
